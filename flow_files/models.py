@@ -27,7 +27,7 @@ class FlowMeterReading(models.Model):
     meter_reading_flag = models.BooleanField()
     reading_method = models.CharField(max_length=1)
     file_name = models.ForeignKey(
-        'FlowMeterReadingFile',
+        'D0010File',
         on_delete=models.CASCADE)
 
     def __str__(self):

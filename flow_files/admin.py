@@ -9,7 +9,7 @@ class FlowMeterReadingAdmin(admin.ModelAdmin):
 
 
 @admin.register(D0010File)
-class FlowMeterReadingFileAdmin(admin.ModelAdmin):
+class D0010FileAdmin(admin.ModelAdmin):
     search_fields = ['file_name']
     list_display = ['file_name']
 

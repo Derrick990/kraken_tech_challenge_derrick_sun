@@ -1,6 +1,6 @@
 from django.db import models
 
-class FlowMeterReadingFile(models.Model):
+class D0010File(models.Model):
     file_name = models.CharField(max_length=100, primary_key=True)
     header = models.CharField(max_length=100)
     footer = models.CharField(max_length=100)

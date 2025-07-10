@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.conf import settings
 
-from flow_files.models import FlowMeterReadingFile
+from flow_files.models import D0010File
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +63,6 @@ def clean_meter_reading_data(raw_data, file_name):
         "number_of_md_resets": None if raw_data[8]=='' else raw_data[8],
         "meter_reading_flag": True if raw_data[9] == 'T' else raw_data[9],
         "reading_method": raw_data[10],
-        "file_name": FlowMeterReadingFile.objects.get(file_name=file_name)
+        "file_name": D0010File.objects.get(file_name=file_name)
     }
 

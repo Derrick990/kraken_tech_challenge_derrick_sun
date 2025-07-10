@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from flow_files.services.meter_reading_service import delete_meter_readings
+from flow_files.services.meter_reading_data_service import delete_meter_readings
 import logging
 
 logger = logging.getLogger(__name__)

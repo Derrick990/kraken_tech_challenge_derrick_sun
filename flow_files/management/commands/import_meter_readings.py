@@ -6,9 +6,9 @@ from pathlib import Path
 from django.core.management.base import BaseCommand
 
 from kraken_tech_challenge_derrick_sun import settings
-from flow_files.models import FlowMeterReadingFile
+from flow_files.models import D0010File
 from flow_files.services.d0010_file_service import import_d0010_file, parse_d0010_lines
-from flow_files.services.meter_reading_service import d0010_file_exists, create_meter_readings, save_meter_readings
+from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, save_meter_readings
 
 logger = logging.getLogger(__name__)
 used_files_dir = settings.BASE_DIR / 'flow_files\\imported_files'
@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 if not d0010_file_exists(file_name):
                     lines = import_d0010_file(files_dir + '\\' + file_name)
                     print(lines)
-                    FlowMeterReadingFile.objects.create(
+                    D0010File.objects.create(
                         file_name=file_name,
                         header=lines[0],
                         footer=lines[-1]

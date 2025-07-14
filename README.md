@@ -51,12 +51,6 @@ The project can only run in a python virtual environment.
 - Add a CRUD functionality to the command line for the files and individual readings. Especially deletion of 
   potentially invalid data.
 - Add a view so that the data can be viewed in a more user-friendly way.
-- The D0010_test_files folders is a bit messy. Could edit the management command so that it can also pull files from
-an absolute path/
 - Some naming conventions are perhaps unclear.
 - Needs exception handling for invalid/incorrectly formatted data.
 - Add validation to the file and readings parameters.
-
-TODO
-- Injest 13 readings
-- Look at documentation for is required.

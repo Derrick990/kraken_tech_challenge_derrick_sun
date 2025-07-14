@@ -23,7 +23,7 @@ The project can only run in a python virtual environment. I'm assuming python is
 3. In the command line of the venv folder enter:
    
    Mac
-   - bin\activate.bat
+   - bin/activate.bat
 
    Windows
    - Scripts\activate.bat

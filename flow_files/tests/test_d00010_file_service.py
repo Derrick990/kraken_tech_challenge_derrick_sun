@@ -26,11 +26,11 @@ class FileServiceTest(TestCase):
 
     def test_import_d0010_file(self):
         result = import_d0010_file(self.file_path)
-        self.assertEqual(len(result), 37)
+        self.assertEqual(37, len(result))
 
     def test_parse_d0010_file(self):
         result = parse_d0010_lines(self.lines, 'DTC5259515123502080915D0010_test.uff')
-        self.assertEqual(len(result), 13)
+        self.assertEqual(13, len(result))
 
     def test_clean_meter_reading_date(self):
         result = parse_d0010_lines(self.lines, 'DTC5259515123502080915D0010_test.uff')
@@ -50,7 +50,7 @@ class FileServiceTest(TestCase):
             "reading_method": "N",
             "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010_test.uff')
         }
-        self.assertEqual(result, expected)
+        self.assertEqual(expected, result)
 
 
 

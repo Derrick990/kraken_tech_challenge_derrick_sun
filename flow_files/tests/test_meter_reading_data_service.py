@@ -109,5 +109,9 @@ class MeterDataServiceTest(TestCase):
         readings = create_meter_readings(data)
         save_meter_readings(readings)
         self.assertEqual(FlowMeterReading.objects.count(), 2)
+        self.assertTrue(FlowMeterReading.objects.filter(file_name='DTC5259515123502080915D0010_test.uff').exists())
+        self.assertTrue(FlowMeterReading.objects.filter(file_name='DTC5259515123502080915D0011.uff').exists())
+
+
 
 

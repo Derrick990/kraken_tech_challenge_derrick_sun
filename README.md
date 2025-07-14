@@ -19,29 +19,30 @@ The project can only run in a python virtual environment. I'm assuming python is
    
    For Windows
    - py -m venv `<environmentname>` 
-3. If Django is not installed, run the below:
-   
-   Mac
-   - python3 -m pip install django
-   
-   Windows
-   - pip install django
-4. In the command line of the venv folder enter:
+
+3. In the command line of the venv folder enter:
    
    Mac
    - bin\activate.bat
 
    Windows
    - Scripts\activate.bat
+4. If Django is not installed, run the below:
+   
+   Mac
+   - python3 -m pip install django
+   
+   Windows
+   - pip install django
 5. Run the project and update it with the below 3 commands.
-   - python3 manage.py runserver
    - python3 manage.py make migrations 
    - python3 manage.py migrate
+   - python3 manage.py runserver
 
 ## Process file 
 1. Go to project folder in command line with the venv already running.
 2. Run the management command and specify the absolute path of the D0010 file. Make sure the path is double-quoted. The server can inject files from any folder in the local machine. e.g. C:\Users\Derrick\Django Project\VENV\src\kraken_test_derrick_sun\flow_files\D0010_files
-   - python3 manage.py import_meter_readings `<folder path>`
+   - python3 manage.py import_meter_readings "`<folder path>`"
    - The command only accepts .uff files. Incorrectly formatted files will be skipped.
 3. Add more .uff files to the desired folder to import them.
 

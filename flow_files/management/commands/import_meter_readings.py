@@ -50,6 +50,7 @@ class Command(BaseCommand):
                     reading_objects = create_meter_readings(file_data)
                     meter_readings.extend(reading_objects)
                     shutil.move(Path(files_dir) / file_name, used_files_dir / file_name)
+                    logger.info(f"Imported file and readings from: {file_name}")
                 else:
                     logger.info("File %s already exists and imported." % file_name)
                     shutil.move(Path(files_dir) / file_name, used_files_dir / file_name)

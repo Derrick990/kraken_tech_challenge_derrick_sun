@@ -15,8 +15,8 @@ from kraken_tech_challenge_derrick_sun import settings
 
 # Set the settings module
 
-files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files'
-used_files_dir = settings.BASE_DIR / 'flow_files\\imported_d0010_files'
+files_dir = settings.BASE_DIR / 'flow_files/tests/test_files'
+used_files_dir = settings.BASE_DIR / 'flow_files/imported_d0010_files'
 file_name = 'DTC5259515123502080915D0010_test.uff'
 
 class MeterReadingsTest(TestCase):

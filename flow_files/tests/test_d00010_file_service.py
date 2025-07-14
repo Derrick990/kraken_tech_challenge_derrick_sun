@@ -14,7 +14,7 @@ from kraken_tech_challenge_derrick_sun import settings
 
 
 
-files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files\\DTC5259515123502080915D0010_test.uff'
+files_dir = settings.BASE_DIR / 'flow_files/tests/test_files/DTC5259515123502080915D0010_test.uff'
 
 class FileServiceTest(TestCase):
     def setUp(self):

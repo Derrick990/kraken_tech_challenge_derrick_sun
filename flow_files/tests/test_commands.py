@@ -26,7 +26,7 @@ class MeterReadingsTest(TestCase):
         self.assertEqual(imported_file.file_name, file_name)
 
         import_readings_count = FlowMeterReading.objects.count()
-        self.assertEqual(import_readings_count, 13)
+        self.assertEqual(13, import_readings_count)
         D0010File.objects.filter(file_name=file_name).exists()
 
 

@@ -8,7 +8,8 @@ from django.core.management.base import BaseCommand
 from kraken_tech_challenge_derrick_sun import settings
 from flow_files.models import D0010File
 from flow_files.services.d0010_file_service import import_d0010_file, parse_d0010_lines
-from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, save_meter_readings
+from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, \
+    save_meter_readings, save_d0100_file
 
 logger = logging.getLogger(__name__)
 used_files_dir = settings.BASE_DIR / 'flow_files\\imported_d0010_files'
@@ -18,7 +19,7 @@ class Command(BaseCommand):
             'machine as an argument')
 
     def add_arguments(self, parser):
-        parser.add_argument('path', type=str, help='Path of the folder while contains the '
+        parser.add_argument('path', type=str, help='Path of the folder which contains the '
         'pipe-delimited .uff file(s)')
 
     def handle(self, *args, **kwargs):
@@ -40,19 +41,17 @@ class Command(BaseCommand):
             try:
                 if not d0010_file_exists(file_name):
                     lines = import_d0010_file(files_dir + '\\' + file_name)
-                    D0010File.objects.create(
-                        file_name=file_name,
-                        header=lines[0],
-                        footer=lines[-1]
-                    )
+                    save_d0100_file(file_name, lines[0], lines[1])
                     file_data = parse_d0010_lines(lines, file_name)
                     reading_objects = create_meter_readings(file_data)
                     meter_readings.extend(reading_objects)
                     shutil.move(Path(files_dir) / file_name, used_files_dir / file_name)
                 else:
                     logger.info("File %s already exists and imported." % file_name)
+                    shutil.move(Path(files_dir) / file_name, used_files_dir / file_name)
             except Exception as e:
                 logger.error("Exception occurred while importing readings from file {}: {e}", file_name)
+                D0010File.objects.filter(file_name=file_name).delete()
                 continue
 
         # Bulk create all imported readings.

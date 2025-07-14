@@ -7,6 +7,15 @@ from flow_files.models import D0010File
 logger = logging.getLogger(__name__)
 
 def import_d0010_file(file_path):
+    """
+         Import D0010 file from a folder location and split the contents into lines
+
+         Args:
+             file_path (string): path of file to be imported
+
+         Returns:
+             list of strings: List of each line of the file
+         """
     try:
         with open(file_path, 'r') as file:
             lines = list(file)
@@ -64,7 +73,7 @@ def parse_d0010_lines(file_data, file_name):
 
         prev_record = split_line[0]
 
-    # This picks up the last record that was not recorded in the loop.
+    # This picks up the last record not recorded in the loop.
     if all(current_record.values()):
         raw_data = current_record["026"] + current_record["028"] + current_record["030"]
         cleaned = clean_meter_reading_data(raw_data, file_name)
@@ -73,6 +82,9 @@ def parse_d0010_lines(file_data, file_name):
     return meter_readings
 
 def clean_meter_reading_data(raw_data, file_name):
+    """
+    Separate the elements of single meter readings into a JSON structure.
+    """
     return {
         "mpan_core": raw_data[0],
         "bsc_validation_status": raw_data[1],

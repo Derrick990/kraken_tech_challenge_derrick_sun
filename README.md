@@ -1,8 +1,11 @@
 # Kraken Distribution Technical Challenge - Derrick Sun
 This project implements the Technical challenge from Kraken Technology. It ingests D0010 .uff files, parses through them and saves the electricty meter data contained into an sqlite database.
-It imports the .uff file separates the lines and elements using the pipes | and parses them to a JSON structure. Then creates and saves each meter reading.
+It imports the .uff file separates the lines and elements using the pipes | and parses them to a JSON structure. Then creates and saves each meter reading by looping through the files lines.
+The 3 digit code at the beginning of each line tells the program what type of data is recorded in the line.
+The management command import_meter_meter_readings is called to handle this logic. In addition there are 2 helper services for modularity.
+1. d0010_file_service.py handles logic related to imported and parsing the files to prepare them for saving.
+2. meter_reading_data_service handles logic related to creating and saving FlowMeterReading objects and file objects.
 
-# ADD DESCRIPTION
 ## How to set up the Project locally
 The project can only run in a python virtual environment.
 1. Unzip the project folder to desired location.
@@ -56,3 +59,5 @@ The project can only run in a python virtual environment.
 - Needs more exception handling for invalid/incorrectly formatted data.
 - Add validation to the file and readings parameters.
 - The footer appears to have meta data about the file e.g. how many lines and how many meter points were read. Could record this meta data explicitly and use it for validation.
+- What if 2 readings from the same MPAN but different meters are in the file, need to handle for this case.
+- Separate data services for files and readings.

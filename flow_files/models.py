@@ -15,17 +15,17 @@ class D0010File(models.Model):
 
 
 class FlowMeterReading(models.Model):
-    mpan_core = models.IntegerField()
-    bsc_validation_status = models.CharField(max_length=1)
-    meter_id = models.CharField(max_length=10)
-    reading_type = models.CharField(max_length=1, default='')
-    meter_register_id = models.CharField(max_length=2)
-    reading_date_time = models.DateTimeField()
-    register_reading = models.DecimalField(max_digits=10, decimal_places=1)
+    mpan_core = models.IntegerField(null=False, blank=False)
+    bsc_validation_status = models.CharField(max_length=1, null=False, blank=False)
+    meter_id = models.CharField(max_length=10, null=False, blank=False)
+    reading_type = models.CharField(max_length=1, default='', null=False, blank=False)
+    meter_register_id = models.CharField(max_length=2, null=False, blank=False)
+    reading_date_time = models.DateTimeField(null=False, blank=False)
+    register_reading = models.DecimalField(max_digits=10, decimal_places=1, null=False, blank=False)
     reset_date_time = models.DateTimeField(null=True, blank=True)
     number_of_md_resets = models.IntegerField(null=True, blank=True)
-    meter_reading_flag = models.BooleanField()
-    reading_method = models.CharField(max_length=1)
+    meter_reading_flag = models.BooleanField(null=True, blank=True)
+    reading_method = models.CharField(max_length=1, null=False, blank=False)
     file_name = models.ForeignKey(
         'D0010File',
         on_delete=models.CASCADE)

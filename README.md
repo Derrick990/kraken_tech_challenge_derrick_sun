@@ -34,7 +34,7 @@ The project can only run in a python virtual environment. I'm assuming python is
    Windows
    - pip install django
 5. Run the project and update it with the below 3 commands.
-   - python3 manage.py make migrations 
+   - python3 manage.py makemigrations 
    - python3 manage.py migrate
    - python3 manage.py runserver
 

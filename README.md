@@ -7,22 +7,27 @@ The management command provided can ingest files from any local directory. In ad
 2. meter_reading_data_service handles logic related to creating and saving FlowMeterReading objects and D00010File objects.
 
 ## How to set up the Project locally
-The project can only run in a python virtual environment.
+The project can only run in a python virtual environment. I'm assuming python is installed on your local machine.
 1. Unzip the project folder to the desired location.
 2. Go to command line in the project folder where you want to create a virtual environment and enter: 
-   - python -m venv <environmentname>
-3. In the command line of the venv folder enter: 
-   - Scripts\activate.bat
-   OR if on linux/Mac.OS
-   - bin/activate.bat 
-   NOTE: if this doesn't work you may need to install django by running:
+   FOR MAC
+   - python3 -m venv <environmentname> 
+   For Windows
+   - py -m venv <environmentname>
+3. If Django is not installed, run the below:
+   MAC
+   - python3 -m pip install django
+   Windows
    - pip install django
-4. If you don't have the required packages installed to run the server enter:
-   - pip install -r requirements.txt 
+4. In the command line of the venv folder enter:
+   Mac
+   - bin\activate.bat
+   Windows
+   - Scripts\activate.bat
 5. Run the project and update it with the below 3 commands.
-   - python manage.py runserver
-   - python manage.py make migrations 
-   - python manage.py migrate
+   - python3 manage.py runserver
+   - python3 manage.py make migrations 
+   - python3 manage.py migrate
 
 ## Process file 
 1. Go to project folder in command line with the venv already running.

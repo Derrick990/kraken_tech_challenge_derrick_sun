@@ -11,7 +11,7 @@ from flow_files.services.meter_reading_data_service import d0010_file_exists, cr
     save_meter_readings, save_d0100_file, delete_meter_readings
 
 logger = logging.getLogger(__name__)
-used_files_dir = settings.BASE_DIR / 'flow_files\\imported_d0010_files'
+used_files_dir = settings.BASE_DIR / 'flow_files/imported_d0010_files'
 
 class Command(BaseCommand):
     help = ('Import D0010 file, parse for flow meter readings and save to database. Takes a folder path in the local'

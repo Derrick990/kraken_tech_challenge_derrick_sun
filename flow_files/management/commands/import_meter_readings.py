@@ -41,7 +41,7 @@ class Command(BaseCommand):
             try:
                 if not d0010_file_exists(file_name):
                     # Import file and separate into lines
-                    lines = import_d0010_file(files_dir + '\\' + file_name)
+                    lines = import_d0010_file(files_dir / file_name)
                     # Save the file header and footer
                     save_d0100_file(file_name, lines[0], lines[1])
                     # Parse through file and produce raw JSON data.

@@ -2,12 +2,11 @@
 This project implements the Technical challenge from Kraken Technology. It ingests D0010 .uff files, parses through them to extract the relevant data and saves the electricity meter data contained into a sqlite database.
 Django models are used represent the D00010 files and the meter readings contained. File and Readings have a one-to-many relationship. The file object is a primary foreign key of each reading.
 The 3-digit code at the beginning of each line tells the program what type of data is recorded in the line.
-The management command provided can ingest files from any local directory. In addition, there are two helper services for modularity.
+The management command provided can ingest files from any local directory (DO NOT use the file in the test directory as this will break the tests). In addition, there are two helper services for modularity.
 1. d0010_file_service.py handles logic related to importing and parsing the files to prepare them for saving.
 2. meter_reading_data_service handles logic related to creating and saving FlowMeterReading objects and D00010File objects.
 
 FOR BELOW COMMANDS: If using Mac use python3 in command line, if using Windows use python
-
 
 ## How to set up the Project locally
 The project can only run in a python virtual environment. I'm assuming python is installed on your local machine.

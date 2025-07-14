@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from django.utils import timezone
+from django.conf import settings
 
 from flow_files.models import D0010File
 
@@ -12,63 +13,40 @@ def import_d0010_file(file_path):
             lines = list(file)
     except Exception as e:
         logger.error(f"Error reading file {file_path}: {e}")
+        return
 
     return lines
 
 def parse_d0010_lines(file_data, file_name):
-    """
-      Parse the lines of a D0010 file.
-
-      Args:
-          file_data (list of strings): Data from file
-          file_name (string): Original name of the file
-
-      Returns:
-          list of JSON: Processed meter reading data.
-      """
-
+    mpan_cores = []
+    meter_reading_type = []
+    register_readings = []
     meter_readings = []
     prev_record = '000'
 
     # Remove header and footer
     file_data = file_data[1:-1]
-    current_record = {
-        "026": None,
-        "028": None,
-        "030": None,
-    }
 
     for line in file_data:
         line = line.strip()
         if not line:
             continue
         split_line = line.split('|')[:-1]
-        line_code = split_line[0]
-        #Assumming the 3-digit line code always increases for a single reading, if the current line code is less than
-        #the previous, we can assume that the previous lines constitute a single meter reading.
+        if split_line[0] <= prev_record or split_line[0] > '999':
+            meter_reading_data = clean_meter_reading_data(mpan_cores + meter_reading_type + register_readings,
+                                                             file_name)
+            meter_readings.append(meter_reading_data)
 
-        if line_code <= prev_record:
-            raw_data = current_record["026"] + current_record["028"] + current_record["030"]
-            cleaned = clean_meter_reading_data(raw_data, file_name)
-            meter_readings.append(cleaned)
+        if split_line[0] == '026':
+            mpan_cores = split_line[1:]
 
-        if line_code == '026':
-            current_record = current_record = {
-                "026": None,
-                "028": None,
-                "030": None,
-            }
+        if split_line[0] == '028':
+            meter_reading_type = split_line[1:]
 
-        if line_code in current_record:
-            current_record[line_code] = split_line[1:]
+        if split_line[0] == '030':
+            register_readings = split_line[1:]
 
         prev_record = split_line[0]
-
-    # This picks up the last record that was not recorded in the loop.
-    if all(current_record.values()):
-        raw_data = current_record["026"] + current_record["028"] + current_record["030"]
-        cleaned = clean_meter_reading_data(raw_data, file_name)
-        meter_readings.append(cleaned)
 
     return meter_readings
 

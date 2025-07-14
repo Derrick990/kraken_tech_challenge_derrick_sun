@@ -1,8 +1,8 @@
+from flow_files.models import FlowMeterReading, D0010File
 import logging
 
-from flow_files.models import FlowMeterReading, D0010File
-
 logger = logging.getLogger(__name__)
+
 
 def delete_meter_readings(file_name_arg):
     if not file_name_arg:

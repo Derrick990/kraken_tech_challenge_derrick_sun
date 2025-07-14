@@ -17,7 +17,7 @@ from kraken_tech_challenge_derrick_sun import settings
 
 files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files'
 used_files_dir = settings.BASE_DIR / 'flow_files\\imported_d0010_files'
-file_name = 'DTC5259515123502080915D0010.uff'
+file_name = 'DTC5259515123502080915D0010_test.uff'
 
 class MeterReadingsTest(TestCase):
     def test_import_meter_readings(self):
@@ -28,6 +28,7 @@ class MeterReadingsTest(TestCase):
         import_readings_count = FlowMeterReading.objects.count()
         self.assertEqual(13, import_readings_count)
         D0010File.objects.filter(file_name=file_name).exists()
+        self.assertTrue(os.path.isfile(os.path.join(used_files_dir, file_name)))
 
 
 

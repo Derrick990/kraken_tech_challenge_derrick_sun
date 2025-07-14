@@ -13,8 +13,12 @@ The project can only run in a python virtual environment.
    - python -m venv <environmentname>
 3. In the command line of the venv folder enter: 
    - Scripts\activate.bat
+   OR if on linux/Mac.OS
+   - bin/activate.bat 
    NOTE: if this doesn't work you may need to install django by running:
    - pip install django
+4. If you don't have the required packages installed to run the server enter:
+   - pip install -r requirements.txt 
 5. Run the project and update it with the below 3 commands. (NOTE: Before running the server it's best to create an admin user first):
    - python manage.py runserver
    - python manage.py make migrations 
@@ -61,3 +65,4 @@ The project can only run in a python virtual environment.
 - The footer appears to have meta data about the file e.g. how many lines and how many meter points were read. Could record this meta data explicitly and use it for validation.
 - What if 2 readings from the same MPAN but different meters are in the file, need to handle for this case.
 - Separate data services for files and readings.
+- Add unique constraint to flow meter readings.

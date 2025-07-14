@@ -14,12 +14,12 @@ from kraken_tech_challenge_derrick_sun import settings
 
 
 
-files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files\\DTC5259515123502080915D0010.uff'
+files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files\\DTC5259515123502080915D0010_test.uff'
 
 class FileServiceTest(TestCase):
     def setUp(self):
         self.file_path = files_dir
-        self.file_name = 'DTC5259515123502080915D0010.uff'
+        self.file_name = 'DTC5259515123502080915D0010_test.uff'
         self.lines = import_d0010_file(self.file_path)
         D0010File(self.file_name, "header", "footer").save()
 
@@ -29,13 +29,13 @@ class FileServiceTest(TestCase):
         self.assertEqual(len(result), 37)
 
     def test_parse_d0010_file(self):
-        result = parse_d0010_lines(self.lines, 'DTC5259515123502080915D0010.uff')
+        result = parse_d0010_lines(self.lines, 'DTC5259515123502080915D0010_test.uff')
         self.assertEqual(len(result), 13)
 
     def test_clean_meter_reading_date(self):
-        result = parse_d0010_lines(self.lines, 'DTC5259515123502080915D0010.uff')
+        result = parse_d0010_lines(self.lines, 'DTC5259515123502080915D0010_test.uff')
         result = result[0]
-        D0010File('DTC5259515123502080915D0010.uff', "header", "footer").save()
+        D0010File('DTC5259515123502080915D0010_test.uff', "header", "footer").save()
         expected = {
             "mpan_core": "1200023305967",
             "bsc_validation_status": "V",
@@ -48,7 +48,7 @@ class FileServiceTest(TestCase):
             "number_of_md_resets": None,
             "meter_reading_flag":  True,
             "reading_method": "N",
-            "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010.uff')
+            "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010_test.uff')
         }
         self.assertEqual(result, expected)
 

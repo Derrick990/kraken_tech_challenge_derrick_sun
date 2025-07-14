@@ -19,8 +19,9 @@ def import_d0010_file(file_path):
     try:
         with open(file_path, 'r') as file:
             lines = list(file)
-    except Exception as e:
-        logger.error(f"Error reading file {file_path}: {e}")
+    except FileNotFoundError as e:
+        logger.error(f"File not found in {file_path}: {e}")
+        return None
 
     return lines
 

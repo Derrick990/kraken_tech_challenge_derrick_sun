@@ -11,21 +11,26 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kraken_tech_challenge_derrick_s
 django.setup()
 
 from flow_files.models import D0010File, FlowMeterReading
-from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, save_meter_readings
+from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, \
+    save_meter_readings, delete_meter_readings
 from kraken_tech_challenge_derrick_sun import settings
 
 
 
 
-files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files\\DTC5259515123502080915D0010.uff'
+files_dir = settings.BASE_DIR / 'flow_files\\tests\\test_files\\DTC5259515123502080915D0010_test.uff'
 
 class MeterDataServiceTest(TestCase):
     def setUp(self):
         self.file_path = files_dir
-        self.file_name = 'DTC5259515123502080915D0010.uff'
+        self.file_name = 'DTC5259515123502080915D0010_test.uff'
         D0010File(self.file_name, "header", "footer").save()
         D0010File('DTC5259515123502080915D0011.uff', "header", "footer").save()
 
+    def test_delete_meter_readings(self):
+        self.assertTrue(D0010File.objects.filter(file_name=file_name).exists())
+        delete_meter_readings(self.file_name)
+        self.assertFalse(D0010File.objects.filter(file_name=file_name).exists())
 
     def test_d0010_file_exists(self):
         d0010_files = d0010_file_exists(self.file_name)
@@ -49,7 +54,7 @@ class MeterDataServiceTest(TestCase):
             "number_of_md_resets": None,
             "meter_reading_flag": True,
             "reading_method": "N",
-            "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010.uff')
+            "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010_test.uff')
         },
         {
             "mpan_core": "1200023305968",
@@ -84,7 +89,7 @@ class MeterDataServiceTest(TestCase):
             "number_of_md_resets": None,
             "meter_reading_flag": True,
             "reading_method": "N",
-            "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010.uff')
+            "file_name": D0010File.objects.get(file_name='DTC5259515123502080915D0010_test.uff')
         },
             {
                 "mpan_core": "1200023305968",

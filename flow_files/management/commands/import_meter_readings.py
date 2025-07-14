@@ -11,35 +11,32 @@ from flow_files.services.d0010_file_service import import_d0010_file, parse_d001
 from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, save_meter_readings
 
 logger = logging.getLogger(__name__)
-used_files_dir = settings.BASE_DIR / 'flow_files\\imported_d0010_files'
+used_files_dir = settings.BASE_DIR / 'flow_files\\imported_files'
 
 class Command(BaseCommand):
-    help = ('Import D0010 file, parse for flow meter readings and save to database. Takes a folder path in the local'
-            'machine as an argument')
+    help = 'Import flow meter readings and save to database'
 
     def add_arguments(self, parser):
         parser.add_argument('path', type=str, help='Path of the folder while contains the '
-        'pipe-delimited .uff file(s)')
+        'pipe-delimited file(s)')
 
     def handle(self, *args, **kwargs):
         files_dir = kwargs.get('path')
         files = os.listdir(files_dir)
 
-        # Get the list of .uff files from the path argument.
+        # Get the list of .uff files for importing and returns a list of file data.
         uff_files = [file for file in files if file.endswith('.uff')]
-
-        # Check if the directory is empty. If it is empty, no exception is thrown. The program exits.
+        # Check if the directory is empty.
         if not uff_files:
             logger.error(f"Directory contains no valid files for ingestion: {files_dir}. Please check the directory.")
             return
-        meter_readings = []
 
-        # Loop through uff files. Once the file is processed it is moved to a separate folder.
-        # If there is a problem with a specific file the program skips it.
+        meter_readings = []
         for file_name in uff_files:
             try:
                 if not d0010_file_exists(file_name):
                     lines = import_d0010_file(files_dir + '\\' + file_name)
+                    print(lines)
                     D0010File.objects.create(
                         file_name=file_name,
                         header=lines[0],
@@ -54,14 +51,9 @@ class Command(BaseCommand):
             except Exception as e:
                 logger.error("Exception occurred while importing readings from file {}: {e}", file_name)
                 continue
-
         # Bulk create all imported readings.
-        try:
-            save_meter_readings(meter_readings)
-            logger.info("Successfully imported {} meter_readings".format(len(meter_readings)))
-        except Exception as e:
-            logger.error("Exception occurred while saving readings.")
-
+        save_meter_readings(meter_readings)
+        logger.info("Successfully imported {} meter_readings".format(len(meter_readings)))
 
 
 

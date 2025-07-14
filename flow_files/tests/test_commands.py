@@ -24,13 +24,10 @@ class MeterReadingsTest(TestCase):
         call_command('import_meter_readings', files_dir)
         imported_file = D0010File.objects.get(pk=file_name)
         self.assertEqual(imported_file.file_name, file_name)
-
         import_readings_count = FlowMeterReading.objects.count()
         self.assertEqual(13, import_readings_count)
         D0010File.objects.filter(file_name=file_name).exists()
         self.assertTrue(os.path.isfile(os.path.join(used_files_dir, file_name)))
-
-
 
     def tearDown(self):
         D0010File.objects.filter(pk=file_name).delete()

@@ -54,14 +54,16 @@ def parse_d0010_lines(file_data, file_name):
             continue
         split_line = line.split('|')[:-1]
         line_code = split_line[0]
-        #Assumming the 3-digit line code always increases for a single reading, if the current line code is less than
-        #the previous, we can assume that the previous lines constitute a single meter reading.
+        # Assumming the 3-digit line code always increases for a single reading, if the current line code is less than or
+        # equal the previous, we can assume that the previous lines constitute a single meter reading.
 
         if line_code <= prev_record:
             raw_data = current_record["026"] + current_record["028"] + current_record["030"]
             cleaned = clean_meter_reading_data(raw_data, file_name)
             meter_readings.append(cleaned)
 
+        # This is not functionally necessary, but I cleared the current_record every time the loop moves to a new MPAN
+        # This is so that there is never mismatched data in current_record (For debugging).
         if line_code == '026':
             current_record = current_record = {
                 "026": None,
@@ -84,7 +86,7 @@ def parse_d0010_lines(file_data, file_name):
 
 def clean_meter_reading_data(raw_data, file_name):
     """
-    Separate the elements of single meter readings into a JSON structure.
+    Separate the elements of single meter readings into a JSON-like structure.
     """
     return {
         "mpan_core": raw_data[0],

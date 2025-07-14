@@ -22,7 +22,7 @@ def delete_meter_readings(file_name_arg):
         queryset.delete()
         logger.info(f"The file '{file_name_arg}' has been deleted.")
     else:
-        logger.info(f"The file '{file_name_arg}' does not exist.")
+        logger.warning(f"The file '{file_name_arg}' does not exist.")
 
 def d0010_file_exists(file_name):
     return D0010File.objects.filter(file_name=file_name).exists()
@@ -33,7 +33,6 @@ def save_d0100_file(file_name, header, footer):
         header=header,
         footer=footer
     )
-
 
 def create_meter_readings(file_data):
     return [FlowMeterReading(**data) for data in file_data]

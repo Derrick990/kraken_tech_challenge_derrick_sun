@@ -6,7 +6,6 @@ from pathlib import Path
 from django.core.management.base import BaseCommand
 
 from kraken_tech_challenge_derrick_sun import settings
-from flow_files.models import D0010File
 from flow_files.services.d0010_file_service import import_d0010_file, parse_d0010_lines
 from flow_files.services.meter_reading_data_service import d0010_file_exists, create_meter_readings, \
     save_meter_readings, save_d0100_file, delete_meter_readings
@@ -41,9 +40,13 @@ class Command(BaseCommand):
         for file_name in uff_files:
             try:
                 if not d0010_file_exists(file_name):
+                    # Import file and separate into lines
                     lines = import_d0010_file(files_dir + '\\' + file_name)
+                    # Save the file header and footer
                     save_d0100_file(file_name, lines[0], lines[1])
+                    # Parse through file and produce raw JSON data.
                     file_data = parse_d0010_lines(lines, file_name)
+                    # Create the meter readings as objects
                     reading_objects = create_meter_readings(file_data)
                     meter_readings.extend(reading_objects)
                     shutil.move(Path(files_dir) / file_name, used_files_dir / file_name)
